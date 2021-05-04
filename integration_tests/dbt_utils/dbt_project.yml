@@ -16,31 +16,31 @@ clean-targets:         # directories to be removed by `dbt clean`
     - "dbt_modules"
 
 vars:
-  dbt_utils_dispatch_list: ["dbt_utils_presto", "dbt_utils_presto_dbt_utils_integration_tests"]
+  dbt_utils_dispatch_list: ["dbt_utils", dbt_utils_presto_dbt_utils_integration_tests"]
 
 models:
   dbt_utils_integration_tests:
-    # +schema: claush_dev
+    schema: claush_dev
     +enabled: true
     cross_db_utils:
     materializations:
       test_insert_by_period: &disabled
         +enabled: false
-    sql: # BROKEN BC MACROS ARE UNPORTED STILL
-      test_get_relations_by_prefix_and_union: *disabled
-    web: # BROKEN DUE TO TEST DEFS
-      test_url_host: *disabled
-      test_url_path: *disabled
-      test_urls: *disabled
+    # sql: # BROKEN BC MACROS ARE UNPORTED STILL
+    #   test_get_relations_by_prefix_and_union: *disabled
+    # web: # BROKEN DUE TO TEST DEFS
+    #   test_url_host: *disabled
+    #   test_url_path: *disabled
+    #   test_urls: *disabled
 
 seeds:
 
   +quote_columns: false
   dbt_utils_integration_tests:
-    # schema: claush_dev
-    schema_tests:
-      data_test_mutually_exclusive_ranges_no_gaps: *disabled
-      data_test_mutually_exclusive_ranges_with_gaps: *disabled
+    schema: claush_dev
+    # schema_tests:
+    #   data_test_mutually_exclusive_ranges_no_gaps: *disabled
+    #   data_test_mutually_exclusive_ranges_with_gaps: *disabled
     cross_db:
       data_date_trunc:
         +column_types:
@@ -60,4 +60,4 @@ seeds:
 
     sql:
       data_events_20180103:
-        # +schema: events
+        schema: claush_dev
