@@ -1,0 +1,63 @@
+name: 'dbt_utils_presto_dbt_utils_integration_tests'
+version: '1.0'
+config-version: 2
+
+profile: 'integration_tests'
+
+source-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+data-paths: ["data"]
+macro-paths: ["macros"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+    - "target"
+    - "dbt_modules"
+
+vars:
+  dbt_utils_dispatch_list: ["dbt_utils_presto", "dbt_utils_presto_dbt_utils_integration_tests"]
+
+models:
+  dbt_utils_integration_tests:
+    # +schema: claush_dev
+    +enabled: true
+    cross_db_utils:
+    materializations:
+      test_insert_by_period: &disabled
+        +enabled: false
+    sql: # BROKEN BC MACROS ARE UNPORTED STILL
+      test_get_relations_by_prefix_and_union: *disabled
+    web: # BROKEN DUE TO TEST DEFS
+      test_url_host: *disabled
+      test_url_path: *disabled
+      test_urls: *disabled
+
+seeds:
+
+  +quote_columns: false
+  dbt_utils_integration_tests:
+    # schema: claush_dev
+    schema_tests:
+      data_test_mutually_exclusive_ranges_no_gaps: *disabled
+      data_test_mutually_exclusive_ranges_with_gaps: *disabled
+    cross_db:
+      data_date_trunc:
+        +column_types:
+          updated_at: datetime
+          day: date
+          month: date
+
+      data_dateadd:
+        +column_types:
+          from_time: datetime
+          result: datetime
+
+      data_datediff:
+        +column_types:
+          first_date: datetime
+          second_date: datetime
+
+    sql:
+      data_events_20180103:
+        # +schema: events

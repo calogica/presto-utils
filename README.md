@@ -14,7 +14,7 @@ This package provides "shims" for:
 
 ## Usage
 
-Wherever a custom presto macro exists, dbt_utils adapter dispatch will pass to `dbt_utils_presto`. This means you can just do `{{dbt_utils.hash('mycolumnname')}}` just like your friends with Snowflake.
+Wherever a custom presto macro exists, dbt_utils adapter dispatch will pass to `dbt_utils_presto`. This means you can just do `{{ dbt_utils.dateadd(...) }}` without having to reference `dbt_utils_presto`.
 
 ## Installation Instructions
 
