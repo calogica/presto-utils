@@ -1,4 +1,4 @@
-# dbt-utils-presto
+# presto-utils
 
 This [dbt](https://github.com/fishtown-analytics/dbt) package contains macros
 that:
@@ -14,29 +14,29 @@ This package provides "shims" for:
 
 ## Usage
 
-Wherever a custom presto macro exists, dbt_utils adapter dispatch will pass to `dbt_utils_presto`. This means you can just do `{{ dbt_utils.dateadd(...) }}` without having to reference `dbt_utils_presto`.
+Wherever a custom presto macro exists, dbt_utils adapter dispatch will pass to `presto_utils`. This means you can just do `{{ dbt_utils.dateadd(...) }}` without having to reference `presto_utils`.
 
 ## Installation Instructions
 
 To make use of these Presto adaptations in your dbt project, you must do two things:
 
-1. Install both and `dbt-utils-presto` and any of the compatible packages listed above by them to your `packages.yml`
+1. Install both and `presto-utils` and any of the compatible packages listed above by them to your `packages.yml`
 
     ```yaml
     packages:
       - package: fishtown-analytics/dbt_utils
         version: {SEE DBT HUB FOR NEWEST VERSION}
-      # dbt_utils_presto is not yet on dbt package hub
-      - git: "https://github.com/calogica/dbt-utils-presto.git"
+      # presto_utils is not yet on dbt package hub
+      - git: "https://github.com/calogica/presto-utils.git"
         revision: main
 
     ```
 
-2. Tell the supported package to also look for the `dbt_utils_presto` macros by adding the relevant variables to your `dbt_project.yml`
+2. Tell the supported package to also look for the `presto_utils` macros by adding the relevant variables to your `dbt_project.yml`
 
     ```yaml
     vars:
-      dbt_utils_dispatch_list: ['dbt_utils_presto']
-      dbt_date_dispatch_list: ['dbt_utils_presto']
-      dbt_expectations_dispatch_list: ['dbt_utils_presto']
+      dbt_utils_dispatch_list: ['presto_utils']
+      dbt_date_dispatch_list: ['presto_utils']
+      dbt_expectations_dispatch_list: ['presto_utils']
     ```

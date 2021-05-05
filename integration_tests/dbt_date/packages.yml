@@ -1,0 +1,4 @@
+packages:
+  - local: ../../
+  - local: ../../dbt-date
+  - local: ../../dbt-date/integration_tests
