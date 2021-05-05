@@ -11,6 +11,8 @@ that:
 This package provides "shims" for:
 
 - [dbt-utils](https://github.com/fishtown-analytics/dbt-utils) (partial)
+- [dbt-date](https://github.com/calogica/dbt-date) (partial)
+- [dbt-expectations](https://github.com/calogica/dbt-expectations) (PLANNED!)
 
 ## Usage
 
