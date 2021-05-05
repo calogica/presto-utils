@@ -26,5 +26,4 @@ quoting:
 
 models:
   dbt_expectations_integration_tests:
-    # schema: claush_dev
     +enabled: true

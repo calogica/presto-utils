@@ -20,7 +20,6 @@ vars:
 
 models:
   dbt_utils_integration_tests:
-    # schema: claush_dev
     +enabled: true
     cross_db_utils:
     materializations:
@@ -38,7 +37,6 @@ seeds:
 
   +quote_columns: false
   dbt_utils_integration_tests:
-    # schema: claush_dev
     # schema_tests:
     #   data_test_mutually_exclusive_ranges_no_gaps: *disabled
     #   data_test_mutually_exclusive_ranges_with_gaps: *disabled

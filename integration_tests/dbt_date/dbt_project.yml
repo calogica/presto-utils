@@ -17,8 +17,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 vars:
   'dbt_date:time_zone': 'America/Los_Angeles'
-  dbt_date_dispatch_list: ["presto_utils", "presto_utils_dbt_date_integration_tests"]
-  dbt_utils_dispatch_list: ["presto_utils", "presto_utils_dbt_date_integration_tests"]
+  dbt_date_dispatch_list: ["presto_utils"]
+  dbt_utils_dispatch_list: ["presto_utils"]
 
 quoting:
   database: false
@@ -26,11 +26,9 @@ quoting:
   identifier: false
 
 models:
+  presto_utils_dbt_date_integration_tests:
   dbt_date:
     example_models:
       +enabled: false
   dbt_date_integration_tests:
-    # schema: claush_dev
     +enabled: true
-    example_models:
-      +enabled: false
