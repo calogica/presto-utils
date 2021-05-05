@@ -3,11 +3,6 @@
 -- - list_relations_without_caching
 -- - get_columns_in_relation
 
-{% macro presto_ilike(column, value) -%}
-	regexp_like({{ column }}, '(?i)\A{{ value }}\Z')
-{%- endmacro %}
-
-
 {% macro presto__get_columns_in_relation(relation) -%}
   {% call statement('get_columns_in_relation', fetch_result=True) %}
       select
@@ -23,13 +18,12 @@
           NULL as numeric_scale
 
       from
-          INFORMATION_SCHEMA.columns
-          {# {{ relation.information_schema('columns') }} #}
+      {{ relation.information_schema('columns') }}
 
       where
         table_name = '{{ relation.name }}'
         {% if relation.schema %}
-        and table_schema = '{{ relation.schema }}'
+        and table_schema = '{{ relation.schema | lower }}'
         {% endif %}
       order by ordinal_position
 
@@ -51,7 +45,7 @@
            else table_type
       end as table_type
     from {{ relation.information_schema() }}.tables
-    where table_schema = '{{ relation.schema }}'
+    where table_schema = '{{ relation.schema | lower }}'
   {% endcall %}
   {{ return(load_result('list_relations_without_caching').table) }}
 {% endmacro %}
@@ -64,20 +58,11 @@
 
 
 {% macro presto__create_table_as(temporary, relation, sql) -%}
-create table {{ relation }}
-{%- if config.get('format') or config.get('partition_by') %}
-with (
-    {%- if config.get('format') %}
-    format = '{{ config.get('format') }}'
-    {%- endif -%}
-    {%- if config.get('partition_by') %},
-    partitioned_by = ARRAY['{{ config.get("partition_by") | join("', '") }}']
-    {%- endif %}
-)
-{%- endif %}
-as (
-{{ sql }}
-);
+  create table
+    {{ relation }}
+  as (
+    {{ sql }}
+  );
 {% endmacro %}
 
 
@@ -99,11 +84,11 @@ as (
 
 {# see this issue: https://github.com/fishtown-analytics/dbt/issues/2267 #}
 {% macro presto__information_schema_name(database) -%}
-  {# {%- if database -%}
+  {%- if database -%}
     {{ database }}.INFORMATION_SCHEMA
-  {%- else -%} #}
+  {%- else -%}
     INFORMATION_SCHEMA
-  {# {%- endif -%} #}
+  {%- endif -%}
 {%- endmacro %}
 
 
@@ -149,7 +134,7 @@ as (
         select count(*)
         from {{ information_schema }}.schemata
         where catalog_name = '{{ information_schema.database }}'
-          and schema_name = '{{ schema }}'
+          and schema_name = '{{ schema | lower }}'
   {%- endcall %}
   {{ return(load_result('check_schema_exists').table) }}
 {% endmacro %}
