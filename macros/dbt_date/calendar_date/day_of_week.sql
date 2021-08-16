@@ -1,7 +1,3 @@
-{%- macro day_of_week(date, isoweek=true) -%}
-{{ adapter.dispatch('day_of_week', packages = dbt_date._get_utils_namespaces()) (date, isoweek) }}
-{%- endmacro %}
-
 {%- macro presto__day_of_week(date, isoweek) -%}
 
     {%- set dow = dbt_date.date_part('DAY_OF_WEEK', date) -%}
